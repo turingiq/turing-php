@@ -3,6 +3,6 @@ namespace Turing;
 /**
  * PHP Exception used in the ImageResize class
  */
-class VisualException extends \Exception
+class VisualAPIException extends \Exception
 {
 }
