@@ -119,13 +119,55 @@ class VisualAPI
 
     public function insert($id, $url, $filters, $metadata)
     {
+      try {
+        if($this->mode == 'live'){
+          $path = "similar/create";
+        } else {
+          $path = "demo-similar/create";
+        }
+        $json_data = [
+          'url' => $url,
+          'filter1'=> $filters['filter1'],
+          'filter2'=> $filters['filter2'],
+          'filter3'=> $filters['filter3'],
+        ];
+        foreach ($metadata as $key => $value){
+          $json_data[$key] = $value;
+        }
+
+        $response = $this->client->post($path, ['json'=> $json_data]);
+
+      } catch (ClientException $e) {
+        $response = $e->getResponse();
+        $json_error = json_decode($response->getBody(), true);
+        if($json_error){
+          throw new VisualAPIException($json_error["error"]);
+        }
+      }
+      return json_decode($response->getBody(), true);
     }
 
     public function update($id, $url, $filters, $metadata)
     {
+      return $this->insert($id, $url, $filters, $metadata);
     }
 
     public function delete($id)
     {
+      try {
+        if($this->mode == 'live'){
+          $path = "similar/$id";
+        } else {
+          $path = "demo-similar/$id";
+        }
+        $response = $this->client->delete($path);
+      } catch (ClientException $e) {
+        $response = $e->getResponse();
+        $json_error = json_decode($response->getBody(), true);
+        if($json_error){
+          throw new VisualAPIException($json_error["error"]);
+        }
+      }
+      return json_decode($response->getBody(), true);
     }
 }
