@@ -30,11 +30,10 @@ Initialize
 You can initialize the `VisualAPI` class with below parameters.
 
 ```php
+$api_key = 'your_api_key' // You can get API key when you login at: https://www.turingiq.com/login
+$mode = 'live'            // the mode can be either `live` or `sandbox`. Default mode is `live`.
 $visual_api = new \Turing\VisualAPI($api_key, $mode);
 ```
-
-`$api_key` is the API key generated when you [login](https://www.turingiq.com/login) to Turing dashboard.
-`$mode` parameter selects API endpoint. It can be either `live` or `sandbox`. Default mode is `live`.
 
 This library uses namespacing. When instantiating the object, you need to either use the fully qualified namespace:
 
