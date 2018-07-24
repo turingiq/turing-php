@@ -55,10 +55,10 @@ class VisualAPI
         return $this;
     }
 
-    public function autocrop($url)
+    public function autocrop($image_url)
     {
       try {
-        $response = $this->client->get("autocrop", ['query'=> ["url" => $url]]);
+        $response = $this->client->get("autocrop", ['query'=> ["url" => $image_url]]);
       } catch (ClientException $e) {
         $response = $e->getResponse();
         $json_error = json_decode($response->getBody(), true);
@@ -69,7 +69,7 @@ class VisualAPI
       return json_decode($response->getBody(), true);
     }
 
-    public function search($url, $crop = [], $filters = [])
+    public function search($image_url, $filters = [], $crop_box = [])
     {
       try {
         if($this->mode == 'live'){
@@ -77,8 +77,8 @@ class VisualAPI
         } else {
           $path = "demo-similar/search";
         }
-        $response = $this->client->post($path, ['json'=> ["url" => $url,
-          'crop' => join(",", $crop),
+        $response = $this->client->post($path, ['json'=> ["url" => $image_url,
+          'crop' => join(",", $crop_box),
           'filter1'=> $filters['filter1'],
           'filter2'=> $filters['filter2'],
           'filter3'=> $filters['filter3'],
@@ -116,7 +116,7 @@ class VisualAPI
       return json_decode($response->getBody(), true);
     }
 
-    public function insert($id, $url, $filters=[], $metadata=[])
+    public function insert($id, $image_url, $filters=[], $metadata=[])
     {
       try {
         if($this->mode == 'live'){
@@ -126,7 +126,7 @@ class VisualAPI
         }
         $json_data = [
           "id" => $id,
-          'url' => $url,
+          'url' => $image_url,
           'filter1'=> $filters['filter1'],
           'filter2'=> $filters['filter2'],
           'filter3'=> $filters['filter3'],
@@ -147,9 +147,9 @@ class VisualAPI
       return json_decode($response->getBody(), true);
     }
 
-    public function update($id, $url=null, $filters=[], $metadata=[])
+    public function update($id, $image_url=null, $filters=[], $metadata=[])
     {
-      return $this->insert($id, $url, $filters, $metadata);
+      return $this->insert($id, $image_url, $filters, $metadata);
     }
 
     public function delete($id)
