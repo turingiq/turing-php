@@ -11,7 +11,6 @@ use GuzzleHttp\Exception\ClientException;
  */
 class VisualAPI
 {
-    const IMG_FLIP_VERTICAL = 1;
     public $api_key;
     protected $base_url;
     protected $client;
