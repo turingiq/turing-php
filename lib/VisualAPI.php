@@ -116,7 +116,7 @@ class VisualAPI
       return json_decode($response->getBody(), true);
     }
 
-    public function insert($id, $url, $filters, $metadata)
+    public function insert($id, $url, $filters=[], $metadata=[])
     {
       try {
         if($this->mode == 'live'){
@@ -125,6 +125,7 @@ class VisualAPI
           $path = "demo-similar/create";
         }
         $json_data = [
+          "id" => $id,
           'url' => $url,
           'filter1'=> $filters['filter1'],
           'filter2'=> $filters['filter2'],
@@ -146,7 +147,7 @@ class VisualAPI
       return json_decode($response->getBody(), true);
     }
 
-    public function update($id, $url, $filters, $metadata)
+    public function update($id, $url=null, $filters=[], $metadata=[])
     {
       return $this->insert($id, $url, $filters, $metadata);
     }
